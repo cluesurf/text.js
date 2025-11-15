@@ -187,6 +187,71 @@ can and can't have pronunciations automatically done.
 | Tibetan            | no                                                             | Modern Tibetan has evolved to where the script no longer is phonetic.                                                                                                                                   |
 | Vietnamese         | no                                                             |                                                                                                                                                                                                         |
 
+## Numbers
+
+```ts
+import hebrewSize from '@cluesurf/text/hebrew/size'
+import thaiSize from '@cluesurf/text/thai/size'
+
+// test a === b
+// (this is the hebrew number for 123)
+test('קג', hebrewSize.make(123))
+
+test('๑๒๓', thaiSize.make(123))
+test(123, thaiSize.read('๑๒๓'))
+
+function test(a: unknown, b: unknown) {
+  if (a !== b) {
+    throw new Error(`${a} != ${b}`)
+  }
+}
+```
+
+### Goal
+
+The goal of this library is to easily convert a number in
+JavaScript/TypeScript to a number in any of the worlds writing systems.
+So for example, write the number `123` in Hebrew as `קג`.
+
+Each language / writing system has many quirks on how they handle
+generating numbers. For example, there are two separate number systems
+in Korean (because they evolved separately), and in Chinese there are
+specific numbers for "general usage" and those for "financial usage" (in
+addition to there being "simplified" and "traditional" variants in both
+those categories!). Another example is some languages don't count by 10
+the way English does, they may count by 5 or 16 or 60 or have some other
+interesting ways of grouping the numbers, so it can get rather complex
+potentially, but most cases it's pretty straightforward.
+
+The goal is to, for each writing system in the
+[code](https://github.com/cluesurf/size.js/tree/make/code) folder,
+create a way to convert a JavaScript number to the native writing system
+number, using their preferred standard system, and to convert it back
+from the native writing system format into JavaScript. So 2 functions.
+
+For now, we are only focusing on basic numbers, i.e. "cardinal numbers",
+not ordinal numbers or other types of numbers.
+
+### Walkthrough
+
+This library in general has 2 methods per writing system:
+
+- `make`: Generates a number within that writing system, given a regular
+  input number.
+- `read`: Generates a regular number, given a number in some writing
+  system.
+
+So we have (TODO):
+
+```ts
+hebrewSize.make(123) // => קג
+hebrewSize.read('קג') // => 123
+```
+
+See the [code](https://github.com/cluesurf/size.js/tree/make/code)
+folder for the current and future supported later. Once we are closer to
+finishing them we will document them here in the readme.
+
 ## Inspiration
 
 - https://github.com/microsoft/Tokenizer/tree/main/tokenizer_ts
@@ -197,9 +262,11 @@ MIT
 
 ## ClueSurf
 
-This is being developed by the folks at [ClueSurf](https://clue.surf), a
-California-based project for helping humanity master information and
-computation. Find us on [Twitter](https://twitter.com/cluesurf),
-[LinkedIn](https://www.linkedin.com/company/cluesurf), and
-[Facebook](https://www.facebook.com/cluesurf). Check out our other
-[GitHub projects](https://github.com/cluesurf) as well!
+Made by [ClueSurf](https://clue.surf), meditating on the universe ¤.
+Follow the work on [YouTube](https://youtube.com/@cluesurf),
+[X](https://x.com/cluesurf),
+[Instagram](https://instagram.com/cluesurf),
+[Substack](https://cluesurf.substack.com),
+[Facebook](https://facebook.com/cluesurf), and
+[LinkedIn](https://linkedin.com/company/cluesurf), and browse more of
+our open-source work here on [GitHub](https://github.com/cluesurf).

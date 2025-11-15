@@ -361,44 +361,6 @@ class SemanticNetwork {
     return this.tempBuffer1
   }
 
-  private log_map(x: Float32Array): Float32Array {
-    const norm = Math.sqrt(this.dotProduct(x, x))
-    if (norm === 0) {
-      this.tempBuffer1.fill(0)
-      return this.tempBuffer1
-    }
-
-    const c = -this.hyperbolicCurvature
-    const coef = Math.atanh(Math.sqrt(c) * norm) / (Math.sqrt(c) * norm)
-
-    // Use tempBuffer1 for result
-    for (let i = 0; i < x.length; i++) {
-      this.tempBuffer1[i] = x[i] * coef
-    }
-
-    return this.tempBuffer1
-  }
-
-  private softmaxInPlace(
-    input: Float32Array,
-    output: Float32Array,
-  ): void {
-    const max = Math.max(...input)
-    let sum = 0
-
-    // Compute exponentials and sum
-    for (let i = 0; i < input.length; i++) {
-      output[i] = Math.exp(input[i] - max)
-      sum += output[i]
-    }
-
-    // Normalize
-    const invSum = 1 / sum
-    for (let i = 0; i < output.length; i++) {
-      output[i] *= invSum
-    }
-  }
-
   getContextualEmbedding(
     nodeId: string,
     context: QueryContext,
